@@ -1868,6 +1868,11 @@ class JunOSDriver(NetworkDriver):
                 optics_detail[interface_name]['physical_channels'] = {}
                 optics_detail[interface_name]['physical_channels']['channel'] = []
 
+            # Remove space in input power level present in some JUNOS versions
+            # https://github.com/napalm-automation/napalm/issues/491
+            if optics['input_power'] is str:
+                optics['input_power'].replace(' ', '')
+
             # Defaulting avg, min, max values to 0.0 since device does not
             # return these values
             intf_optics = {
